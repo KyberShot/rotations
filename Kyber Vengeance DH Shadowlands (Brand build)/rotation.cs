@@ -47,7 +47,7 @@ namespace AimsharpWow.Modules
 
         public override void Initialize()
         {
-            Aimsharp.PrintMessage("Vengenace DH Shadowlands - Brand Build v 1.0", Color.Blue);
+            Aimsharp.PrintMessage("Kyber Vengenace DH Shadowlands - Brand Build v 1.0", Color.Blue);
             Aimsharp.PrintMessage("Recommended talents: 2323321", Color.Blue);
             Aimsharp.PrintMessage("These macros can be used for manual control:", Color.Blue);
             Aimsharp.PrintMessage("/xxxxx SaveMeta", Color.Blue);

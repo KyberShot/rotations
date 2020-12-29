@@ -17,7 +17,7 @@ namespace AimsharpWow.Modules
         };
 
         List<string> VengeanceBuffs = new List<string>{
-            "Metamorphosis","Memory of Lucid Dreams","Thirsting Blades","Prepared","Lifeblood","Demon Spikes","Soul Fragments","Fel Bombardment","Immolation Aura"
+            "Metamorphosis","Lifeblood","Demon Spikes","Soul Fragments","Fel Bombardment","Immolation Aura"
         };
 
         List<string> VengeanceDebuffs = new List<string>{

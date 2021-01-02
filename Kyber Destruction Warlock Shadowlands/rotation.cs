@@ -341,280 +341,239 @@ namespace AimsharpWow.Modules
             if (IsChanneling)
                 return false;
 
-            //actions=call_action_list,name=havoc,if=havoc_active&active_enemies>1&active_enemies<5-talent.inferno.enabled+(talent.inferno.enabled&talent.internal_combustion.enabled)
             if (HavocActive && EnemiesNearTarget > 1 && EnemiesNearTarget < 5 - (TalentInfernoEnabled ? 1 : 0) + (TalentInfernoEnabled && TalentInternalCombustionEnabled ? 1 : 0))
             {
-                //actions.havoc=conflagrate,if=buff.backdraft.down&soul_shard>=1&soul_shard<=4
                 if (Aimsharp.CanCast("Conflagrate")){
                 if (!BuffBackdraftUp && SoulShard >= 1 && SoulShard <= 4){
                     Aimsharp.Cast("Conflagrate");
                     return true;}
                 }
-
-                //actions.havoc+=/soul_fire,if=cast_time<havoc_remains
+                
                 if (Aimsharp.CanCast("Soul Fire") && !Moving && Fighting && TalentSoulFireEnabled && CDSoulFireReady){
                 if (SoulFireCastTime < DebuffHavocRemains)
                     Aimsharp.Cast("Soul Fire");
                     return true;
                 }
-
-                //actions.havoc+=/decimating_bolt,if=cast_time<havoc_remains&soulbind.lead_by_example.enabled
+                
                 if (Necrolord && Aimsharp.CanCast("Decimating Bolt") && Fighting && !SaveCovenant && CDDecimatingBoltReady){
                 if (DecimatingBoltCastTime < DebuffHavocRemains && SoulbindLeadByExample){
                     Aimsharp.Cast("Decimating Bolt");
                     return true;}
                 }
-
-                //actions.havoc+=/scouring_tithe,if=cast_time<havoc_remains
+                
                 if (Kyrian && Aimsharp.CanCast("Scouring Tithe") && Fighting && !SaveCovenant && CDScouringTitheReady){
                 if (ScouringTitheCasttime < DebuffHavocRemains){
                     Aimsharp.Cast("Scouring Tithe");
                     return true;}
                 }
-
-                //actions.havoc+=/immolate,if=talent.internal_combustion.enabled&remains<duration*0.5|!talent.internal_combustion.enabled&refreshable
+                
                 if (Aimsharp.CanCast("Immolate") && !Moving && !CastingImmolate){
                 if (TalentInternalCombustionEnabled && DebuffImmolateRemains < 9000 || !TalentInternalCombustionEnabled && DebuffImmolateRefreshable){
                     Aimsharp.Cast("Immolate");
                     return true;}
                 }
-
-                //actions.havoc+=/chaos_bolt,if=cast_time<havoc_remains
+                
                 if (Aimsharp.CanCast("Chaos Bolt") && !Moving){
                 if (ChaosBoltCastTime < DebuffHavocRemains){
                     Aimsharp.Cast("Chaos Bolt");
                     return true;}
                 }
-
-                //actions.havoc+=/shadowburn
                 if (Aimsharp.CanCast("Shadowburn") && Fighting && TalentShadowBurnEnabled && CDShadowburnReady){
                     Aimsharp.Cast("Shadowburn");
                     return true;
                 }
-
-                //actions.havoc+=/incinerate,if=cast_time<havoc_remains
+                
                 if (Aimsharp.CanCast("Incinerate") && Fighting && !Moving){
                 if (IncinerateCastTime < DebuffHavocRemains){
                     Aimsharp.Cast("Incinerate");
                     return true;}
+                    }
                 }
-            }
 
-                //actions+=/conflagrate,if=talent.roaring_blaze.enabled&debuff.roaring_blaze.remains<1.5
                 if (Aimsharp.CanCast("Conflagrate")){
                 if (TalentRoaringBlazeEnabled && DebuffHavocRemains < 1500){
                     Aimsharp.Cast("Conflagrate");
                     return true;}
                 }
-
-                //actions+=/cataclysm,if=!(pet.infernal.active&dot.immolate.remains+1>pet.infernal.remains)|spell_targets.cataclysm>1
+                
                 if (Aimsharp.CanCast("Cataclysm", "player") && !Moving && Fighting && CDCataclysmReady && TalentCataclysmEnabled){
                 if (!(InfernalActive && DebuffImmolateRemains + 1000 > InfernalRemaining) || EnemiesNearTarget > 1){
                     Aimsharp.Cast("cata cursor");
                     return true;}
                 }
 
-                //actions+=/call_action_list,name=aoe,if=active_enemies>2
                 if (EnemiesNearTarget > 2)
                 {
-                //actions.aoe=rain_of_fire,if=pet.infernal.active&(!cooldown.havoc.ready|active_enemies>3)
+                
                 if (Aimsharp.CanCast("Rain of Fire", "player") && Fighting){
                 if (InfernalActive && (!CDHavocReady || EnemiesNearTarget > 3)){
                     Aimsharp.Cast("rof cursor");
                     return true;}
                 }
                 
-                //actions.aoe+=/soul_rot
                 if (NightFae && Aimsharp.CanCast("Soul Rot") && Fighting && !SaveCovenant && CDSoulRotReady){
                     Aimsharp.Cast("Soul Rot");
                     return true;
                 }
-
-                //actions.aoe+=/channel_demonfire,if=dot.immolate.remains>cast_time
+                
                 if (Aimsharp.CanCast("Channel Demonfire", "player") && !Moving && Fighting && TalentChannelDemonfireEnabled && CDChannelDemonfireReady){
                 if (DebuffImmolateRemains > DemonfireCastTime){
                     Aimsharp.Cast("Channel Demonfire");
                     return true;}
                 }
-
-                //actions.aoe+=/immolate,cycle_targets=1,if=remains<5&(!talent.cataclysm.enabled|cooldown.cataclysm.remains>remains)
+                
                 if (Aimsharp.CanCast("Immolate") && !Moving && !CastingImmolate){
                 if (DebuffImmolateRemains < 5000 && (!TalentCataclysmEnabled || CDCataclysmRemains > DebuffImmolateRemains)){
                     Aimsharp.Cast("Immolate");
                     return true;}
                 }
-
                 if(!SaveCooldowns)
                 {
-                //actions.cds+=/summon_infernal
+                
                 if (Aimsharp.CanCast("Summon Infernal", "player") && Fighting && CDSummonInfernalReady){
                     Aimsharp.Cast("inf cursor");
                     return true;
                 }
-
-                //actions.cds+=/dark_soul_instability
+                
                 if (Aimsharp.CanCast("Dark Soul: Instability", "player") && Fighting && CDDarkSoulInstabilityReady && TalentDarkSoulInstabilityEnabled){
                     Aimsharp.Cast("Dark Soul: Instability");
                     return true;
                 }
-
-                //actions.cds+=/potion,if=pet.infernal.active
+                
                 if (UsePotion && Aimsharp.CanUseItem(PotionName, false) && DpsPotionCdReady && InfernalActive){
                     Aimsharp.Cast("DPS Pot", true);
                     return true;
                 }
-                //actions.cds+=/berserking,if=pet.infernal.active, actions.cds+=/blood_fury,if=pet.infernal.active ,actions.cds+=/fireblood,if=pet.infernal.active
-                if (InfernalActive)
+                
                 foreach (string Racial in Racials){
-                if (Aimsharp.CanCast(Racial, "player") && Fighting){
+                if (Aimsharp.CanCast(Racial, "player") && Fighting && InfernalActive){
                     Aimsharp.Cast(Racial, true);
                     return true;}
                 } 
-
-                //actions.cds+=/use_items,if=pet.infernal.active|target.time_to_die<20
+                
                 if (Aimsharp.CanUseTrinket(0) && UseTopTrinket && Fighting){
                 if (InfernalActive || TargetTimeToDie <= 20){
                     Aimsharp.Cast("TopTrinket", true);
                     return true;}
                 }
                 
-                //actions.cds+=/use_items,if=pet.infernal.active|target.time_to_die<20
                 if (Aimsharp.CanUseTrinket(1) && UseBottomTrinket && Fighting){
                 if (InfernalActive || TargetTimeToDie <= 20){
                     Aimsharp.Cast("BottomTrinket", true);
                     return true;}
                     }
                 }
-
-                //actions.aoe+=/havoc,cycle_targets=1,if=!(target=self.target)&active_enemies<4
+                
                 if (Aimsharp.CanCast("Havoc", "focus") && !LineOfSighted){
                 if (EnemiesNearTarget < 4){
                     Aimsharp.Cast("havoc focus");
                     return true;}
                 }
-
-                //actions.aoe+=/rain_of_fire
+                
                 if (Aimsharp.CanCast("Rain of Fire", "player") && Fighting){
                     Aimsharp.Cast("rof cursor");
                     return true;
                 }
-
-                //actions.aoe+=/havoc,cycle_targets=1,if=!(target=self.target)
+                
                 if (Aimsharp.CanCast("Havoc", "focus") && !LineOfSighted){
                     Aimsharp.Cast("havoc focus");
                     return true;
                 }
-
-                //actions.aoe+=/decimating_bolt,if=(soulbind.lead_by_example.enabled|!talent.fire_and_brimstone.enabled)
+                
                 if (Necrolord && Aimsharp.CanCast("Decimating Bolt") && Fighting && !SaveCovenant && CDDecimatingBoltReady){
                 if (SoulbindLeadByExample || !TalentFireAndBrimstoneEnabled){
                     Aimsharp.Cast("Decimating Bolt");
                     return true;}
                 }
-
-                //actions.aoe+=/incinerate,if=talent.fire_and_brimstone.enabled&buff.backdraft.up&soul_shard<5-0.2*active_enemies
+                
                 if (Aimsharp.CanCast("Incinerate") && Fighting && !Moving){
                 if (TalentFireAndBrimstoneEnabled && BuffBackdraftUp && SoulShard < 5 - 0.2 * (EnemiesNearTarget)){
                     Aimsharp.Cast("Incinerate");
                     return true;}
                 }
-
-                //actions.aoe+=/soul_fire
+                
                 if (Aimsharp.CanCast("Soul Fire") && !Moving && Fighting && TalentSoulFireEnabled && CDSoulFireReady){
                     Aimsharp.Cast("Soul Fire");
                     return true;
                 }
-
-                //actions.aoe+=/conflagrate,if=buff.backdraft.down
+                
                 if (Aimsharp.CanCast("Conflagrate")){
                 if (!BuffBackdraftUp){
                     Aimsharp.Cast("Conflagrate");
                     return true;}
                 }
-
-                //actions.aoe+=/shadowburn,if=target.health.pct<20
+                
                 if (Aimsharp.CanCast("Shadowburn") && Fighting && TalentShadowBurnEnabled && CDShadowburnReady){
                 if (TargetHealth < 20){
                     Aimsharp.Cast("Shadowburn");
                     return true;}
                 }
-
-                //actions.aoe+=/scouring_tithe,if=!(talent.fire_and_brimstone.enabled|talent.inferno.enabled)
+                
                 if (Kyrian && Aimsharp.CanCast("Scouring Tithe") && Fighting && !SaveCovenant && CDScouringTitheReady){
                 if (!(TalentFireAndBrimstoneEnabled || TalentInfernoEnabled)){
                     Aimsharp.Cast("Scouring Tithe");
                     return true;}
                 }
-
-                //actions.aoe+=/impending_catastrophe,if=!(talent.fire_and_brimstone.enabled|talent.inferno.enabled)
+                
                 if (Venthyr && Aimsharp.CanCast("Impending Catastrophe") && Fighting && !SaveCovenant && CDImpendingCatastropheReady){
                 if (!(TalentFireAndBrimstoneEnabled || TalentInfernoEnabled)){
                     Aimsharp.Cast("Impending Catastrophe");
                     return true;}
                 }
-
-                //actions.aoe+=/incinerate
+                
                 if (Aimsharp.CanCast("Incinerate") && Fighting && !Moving){
                     Aimsharp.Cast("Incinerate");
                     return true;}
                 }
                 
-                //actions+=/soul_fire,cycle_targets=1,if=refreshable&soul_shard<=4&(!talent.cataclysm.enabled|cooldown.cataclysm.remains>remains)
                 if (Aimsharp.CanCast("Soul Fire") && Fighting && !Moving && TalentSoulFireEnabled && CDSoulFireReady){
                 if (DebuffImmolateRefreshable && SoulShard <= 4 && (!TalentCataclysmEnabled || CDCataclysmRemains > DebuffImmolateRemains)){
                     Aimsharp.Cast("Soul Fire");
                     return true;}
                 }
-
-                //actions+=/immolate,cycle_targets=1,if=refreshable&(!talent.cataclysm.enabled|cooldown.cataclysm.remains>remains)
+                
+                if (Aimsharp.CanCast("Immolate") && !Moving && !CastingImmolate){
+                if (DebuffImmolateRefreshable && (!TalentCataclysmEnabled || CDCataclysmRemains > DebuffImmolateRemains)){
+                    Aimsharp.Cast("Immolate");
+                    return true;}
+                }
+                
                 if (Aimsharp.CanCast("Immolate") && !Moving && !CastingImmolate){
                 if (DebuffImmolateRefreshable && (!TalentCataclysmEnabled || CDCataclysmRemains > DebuffImmolateRemains)){
                     Aimsharp.Cast("Immolate");
                     return true;}
                 }
 
-                //actions+=/immolate,if=talent.internal_combustion.enabled&action.chaos_bolt.in_flight&remains<duration*0.5
-                if (Aimsharp.CanCast("Immolate") && !Moving && !CastingImmolate){
-                if (DebuffImmolateRefreshable && (!TalentCataclysmEnabled || CDCataclysmRemains > DebuffImmolateRemains)){
-                    Aimsharp.Cast("Immolate");
-                    return true;}
-                }
-
+                
                 if(!SaveCooldowns)
                 {
-                //actions.cds+=/summon_infernal
                 if (Aimsharp.CanCast("Summon Infernal", "player") && Fighting && CDSummonInfernalReady){
                     Aimsharp.Cast("inf cursor");
                     return true;
                 }
-
-                //actions.cds+=/dark_soul_instability
+                
                 if (Aimsharp.CanCast("Dark Soul: Instability", "player") && Fighting && CDDarkSoulInstabilityReady && TalentDarkSoulInstabilityEnabled){
                     Aimsharp.Cast("Dark Soul: Instability");
                     return true;
                 }
-
-                //actions.cds+=/potion,if=pet.infernal.active
+                
                 if (UsePotion && Aimsharp.CanUseItem(PotionName, false) && DpsPotionCdReady && InfernalActive){
                     Aimsharp.Cast("DPS Pot", true);
                     return true;
                 }
-
-                if (InfernalActive)
+                
                 foreach (string Racial in Racials){
-                if (Aimsharp.CanCast(Racial, "player") && Fighting){
+                if (Aimsharp.CanCast(Racial, "player") && Fighting && InfernalActive){
                     Aimsharp.Cast(Racial, true);
                     return true;}
                 }
-
-                //actions.cds+=/use_items,if=pet.infernal.active|target.time_to_die<20
+                
                 if (Aimsharp.CanUseTrinket(0) && UseTopTrinket && Fighting){
                 if (InfernalActive || TargetTimeToDie <= 20){
                     Aimsharp.Cast("TopTrinket", true);
                     return true;}
                 }
-
-                //actions.cds+=/use_items,if=pet.infernal.active|target.time_to_die<20
+                
                 if (Aimsharp.CanUseTrinket(1) && UseBottomTrinket && Fighting){
                 if (InfernalActive || TargetTimeToDie <= 20){
                     Aimsharp.Cast("BottomTrinket", true);
@@ -622,103 +581,86 @@ namespace AimsharpWow.Modules
                     }
                 }
 
-                //actions+=/channel_demonfire
                 if (Aimsharp.CanCast("Channel Demonfire", "player") && !Moving && Fighting && TalentChannelDemonfireEnabled && CDChannelDemonfireReady){
-                Aimsharp.Cast("Channel Demonfire");
-                return true;
+                    Aimsharp.Cast("Channel Demonfire");
+                    return true;
                 }
-
-                //actions+=/scouring_tithe
+                
                 if (Kyrian && Aimsharp.CanCast("Scouring Tithe") && Fighting && !SaveCovenant && CDScouringTitheReady){
                     Aimsharp.Cast("Scouring Tithe");
                     return true;
                 }
-
-                //actions+=/decimating_bolt
+                
                 if (Necrolord && Aimsharp.CanCast("Decimating Bolt") && Fighting && !SaveCovenant && CDDecimatingBoltReady){
                     Aimsharp.Cast("Decimating Bolt");
                     return true;
                 }
-
-                //actions+=/havoc,cycle_targets=1,if=!(target=self.target)&(dot.immolate.remains>dot.immolate.duration*0.5|!talent.internal_combustion.enabled)
+                
                 if (Aimsharp.CanCast("Havoc", "focus") && !LineOfSighted){
                 if ((DebuffImmolateRemains > 9000 || !TalentInternalCombustionEnabled)){
                     Aimsharp.Cast("havoc focus");
                     return true;}
                 }
                 
-                //actions+=/impending_catastrophe
                 if (Venthyr && Aimsharp.CanCast("Impending Catastrophe") && Fighting && !SaveCovenant && CDImpendingCatastropheReady){
                     Aimsharp.Cast("Impending Catastrophe");
                     return true;
                 }
-
-                //actions+=/soul_rot
+                
                 if (NightFae && Aimsharp.CanCast("Soul Rot") && Fighting && !SaveCovenant && CDSoulRotReady){
                     Aimsharp.Cast("Soul Rot");
                     return true;
                 }
-
-                //actions+=/havoc,if=runeforge.odr_shawl_of_the_ymirjar.equipped
+                
                 if (Aimsharp.CanCast("Havoc") && Fighting){
                 if (EnemiesNearTarget == 1 && LegendaryOdrShawloftheYmirjar){
                     Aimsharp.Cast("havoc");
                     return true;}
                 }
 
-                //actions+=/variable,name=pool_soul_shards,value=active_enemies>1&cooldown.havoc.remains<=10|cooldown.summon_infernal.remains<=15&talent.dark_soul_instability.enabled&cooldown.dark_soul_instability.remains<=15|talent.dark_soul_instability.enabled&cooldown.dark_soul_instability.remains<=15&(cooldown.summon_infernal.remains>target.time_to_die|cooldown.summon_infernal.remains+cooldown.summon_infernal.duration>target.time_to_die)
-                bool PoolSoulShards = !SaveCooldowns && ( EnemiesNearTarget > 1 && CDHavocRemains <= 10000 || CDSummonInfernalRemains <= 15000 && (TalentDarkSoulInstabilityEnabled && CDDarkSoulInstabilityRemains <= 15000) || TalentDarkSoulInstabilityEnabled && CDDarkSoulInstabilityRemains <= 15000 && (CDSummonInfernalRemains > TargetTimeToDie || CDSummonInfernalRemains + 135000 > TargetTimeToDie) );
-
-                //actions+=/conflagrate,if=buff.backdraft.down&soul_shard>=1.5-0.3*talent.flashover.enabled&!variable.pool_soul_shards
+                bool PoolSoulShards = !SaveCooldowns && ( EnemiesNearTarget > 1 && CDHavocRemains <= 10000 || CDSummonInfernalRemains <= 15000 && ((TalentDarkSoulInstabilityEnabled ? 1 : 0) && CDDarkSoulInstabilityRemains <= 15000) || (TalentDarkSoulInstabilityEnabled ? 1 : 0) && CDDarkSoulInstabilityRemains <= 15000 && (CDSummonInfernalRemains > TargetTimeToDie || CDSummonInfernalRemains + 135000 > TargetTimeToDie));
                 if (Aimsharp.CanCast("Conflagrate")){
                 if (!BuffBackdraftUp && SoulShard >= 1.5 * (TalentFlashoverEnabled ? 1 : 0) && !PoolSoulShards){
                     Aimsharp.Cast("Conflagrate");
                     return true;}
                 }
-
-                //actions+=/chaos_bolt,if=buff.dark_soul_instability.up
+                
                 if (Aimsharp.CanCast("Chaos Bolt") && !Moving){
                 if (BuffDarkSoulInstabilityUp){
                     Aimsharp.Cast("Chaos Bolt");
                     return true;}
                 }
-
-                //actions+=/chaos_bolt,if=buff.backdraft.up&!variable.pool_soul_shards&!talent.eradication.enabled
+                
                 if (Aimsharp.CanCast("Chaos Bolt") && !Moving){
                 if (BuffBackdraftUp && !PoolSoulShards && !TalentEradicationEnabled){
                     Aimsharp.Cast("Chaos Bolt");
                     return true;}
                 }
-
-                //actions+=/chaos_bolt,if=!variable.pool_soul_shards&talent.eradication.enabled&(debuff.eradication.remains<cast_time|buff.backdraft.up)
+                
                 if (Aimsharp.CanCast("Chaos Bolt") && !Moving){
                 if (!PoolSoulShards && TalentEradicationEnabled && (DebuffEradicationRemains < ChaosBoltCastTime || BuffBackdraftUp)){
                     Aimsharp.Cast("Chaos Bolt");
                     return true;}
                 }
-
-                //actions+=/shadowburn,if=!variable.pool_soul_shards|soul_shard>=4.5
+                
                 if (Aimsharp.CanCast("Shadowburn") && Fighting && TalentShadowBurnEnabled && CDShadowburnReady){
                 if (!PoolSoulShards || SoulShard >= 4.5){
                     Aimsharp.Cast("Shadowburn");
                     return true;}
                 }
-
-                //actions+=/chaos_bolt,if=(soul_shard>=4.5-0.2*active_enemies)
+                
                 if (Aimsharp.CanCast("Chaos Bolt") && !Moving){
                 if (SoulShard >= 4.5 - 0.2* (EnemiesNearTarget)){
                     Aimsharp.Cast("Chaos Bolt");
                     return true;}
                 }
-
-                //actions+=/conflagrate,if=charges>1
+                
                 if (Aimsharp.CanCast("Conflagrate")){
                 if (ConflagrateCharges > 1){
                     Aimsharp.Cast("Conflagrate");
                     return true;}
                 }
-
-                //actions+=/incinerate
+                
                 if (Aimsharp.CanCast("Incinerate") && Fighting && !Moving){
                     Aimsharp.Cast("Incinerate");
                     return true;

@@ -41,7 +41,8 @@ namespace AimsharpWow.Modules
             Settings.Add(new Setting("Use Top Trinket:", false));
             Settings.Add(new Setting("Use Bottom Trinket:", false));
             Settings.Add(new Setting("Use DPS Potion:", false));
-            Settings.Add(new Setting("Potion name:", "Potion of Phantom Fire"));
+            List<string> PotionList = new List<string>(new string[] { "Potion of Spectral Agility", "Potion of Phantom Fire", "Potion of Empowered Exorcisms"});
+            Settings.Add(new Setting("Potion name:", PotionList, "Potion of Spectral Agility"));
         }
 
 
@@ -249,6 +250,32 @@ namespace AimsharpWow.Modules
             bool CoralDebuffUp = Aimsharp.HasDebuff("Razor Coral");
             bool InkUp = Aimsharp.HasDebuff("Conductive Ink");
             bool DebuffFieryBrandUp = Aimsharp.HasDebuff("Fiery Brand");
+            
+	    //HOA Interupts IDs
+            bool Casting325700 = Aimsharp.CastingID("focus") == 325700; //Collect Souls
+            bool Casting326607 = Aimsharp.CastingID("focus") == 326607; //Turn To Stone 
+            bool Casting323552 = Aimsharp.CastingID("focus") == 323442; //Volley Of Power
+            bool Casting325876 = Aimsharp.CastingID("focus") == 325876; //Curse Of Obliteration
+            
+	    //TOP Interupts IDs
+            bool Casting330784 = Aimsharp.CastingID("focus") == 330784; //Necrotic Bolt
+            bool Casting330562 = Aimsharp.CastingID("focus") == 330562; //Demoralizing Shout 
+            bool Casting341977 = Aimsharp.CastingID("focus") == 341977; //Meat Shield
+            bool Casting341969 = Aimsharp.CastingID("focus") == 341969; //Withering Discharge
+            bool Casting370875 = Aimsharp.CastingID("focus") == 330875; //Spirit Frost
+            bool Casting330868 = Aimsharp.CastingID("focus") == 330868; //Necrotic Bolt Volley 
+            bool Casting342675 = Aimsharp.CastingID("focus") == 341977; //Bone Spear
+            
+	    //DOS Interupts IDs
+            bool Casting328740 = Aimsharp.CastingID("focus") == 328740; //Dark Lotus
+            bool Casting328707 = Aimsharp.CastingID("focus") == 328707; //Scribe
+            bool Casting334076 = Aimsharp.CastingID("focus") == 334076; //Shadowcore
+            bool Casting332706 = Aimsharp.CastingID("focus") == 332706; //Heal
+            bool Casting332612 = Aimsharp.CastingID("focus") == 332612; //Healing Wave
+            bool Casting332605 = Aimsharp.CastingID("focus") == 332605; //Hex
+	    bool Casting332084 = Aimsharp.CastingID("focus") == 332084; //Self-Cleaning Cycle
+            bool Casting321764 = Aimsharp.CastingID("focus") == 321764; //Bark Armor
+	    
 
             //Interrupt
             bool CanInterruptEnemy = Aimsharp.IsInterruptable();

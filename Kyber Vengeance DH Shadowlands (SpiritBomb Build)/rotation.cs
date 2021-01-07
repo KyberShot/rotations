@@ -41,7 +41,8 @@ namespace AimsharpWow.Modules
             Settings.Add(new Setting("Use Top Trinket:", false));
             Settings.Add(new Setting("Use Bottom Trinket:", false));
             Settings.Add(new Setting("Use DPS Potion:", false));
-            Settings.Add(new Setting("Potion name:", "Potion of Unbridled Fury"));
+            List<string> PotionList = new List<string>(new string[] { "Potion of Spectral Agility", "Potion of Phantom Fire", "Potion of Empowered Exorcisms"});
+            Settings.Add(new Setting("Potion name:", PotionList, "Potion of Spectral Agility"));
         }
 
 
@@ -261,6 +262,21 @@ namespace AimsharpWow.Modules
             bool CoralDebuffUp = Aimsharp.HasDebuff("Razor Coral");
             bool InkUp = Aimsharp.HasDebuff("Conductive Ink");
             bool DebuffFieryBrandUp = Aimsharp.HasDebuff("Fiery Brand");
+            
+	    //HOA Interupts IDs
+            bool Casting325700 = Aimsharp.CastingID("focus") == 325700; // Collect Souls
+            bool Casting326607 = Aimsharp.CastingID("focus") == 326607; // Turn To Stone 
+            bool Casting323552 = Aimsharp.CastingID("focus") == 323442; // Volley Of Power
+            bool Casting325876 = Aimsharp.CastingID("focus") == 325876; // Curse Of Obliteration
+	    
+	    //TOP Interupts IDs
+            bool Casting330784 = Aimsharp.CastingID("focus") == 330784; // Necrotic Bolt
+            bool Casting330562 = Aimsharp.CastingID("focus") == 330562; // Demoralizing Shout 
+            bool Casting341977 = Aimsharp.CastingID("focus") == 341977; // Meat Shield
+            bool Casting341969 = Aimsharp.CastingID("focus") == 341969; // Withering Discharge
+            bool Casting370875 = Aimsharp.CastingID("focus") == 330875; // Spirit Frost
+            bool Casting330868 = Aimsharp.CastingID("focus") == 330868; // Necrotic Bolt Volley 
+            bool Casting342675 = Aimsharp.CastingID("focus") == 341977; // Bone Spear
 
             //Interrupt
             bool CanInterruptEnemy = Aimsharp.IsInterruptable();

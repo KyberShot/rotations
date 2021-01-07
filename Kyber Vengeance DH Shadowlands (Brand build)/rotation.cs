@@ -250,6 +250,13 @@ namespace AimsharpWow.Modules
             bool CoralDebuffUp = Aimsharp.HasDebuff("Razor Coral");
             bool InkUp = Aimsharp.HasDebuff("Conductive Ink");
             bool DebuffFieryBrandUp = Aimsharp.HasDebuff("Fiery Brand");
+            
+	    //HOA Interupts IDs
+            bool Casting325700 = Aimsharp.CastingID("focus") == 325700; // Collect Souls
+            bool Casting326607 = Aimsharp.CastingID("focus") == 326607; // Turn To Stone 
+            bool Casting323552 = Aimsharp.CastingID("focus") == 323442; // Volley Of Power
+            bool Casting325876 = Aimsharp.CastingID("focus") == 325876; // Curse Of Obliteration
+
 
             //Interrupt
             bool CanInterruptEnemy = Aimsharp.IsInterruptable();

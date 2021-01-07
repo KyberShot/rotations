@@ -41,7 +41,8 @@ namespace AimsharpWow.Modules
             Settings.Add(new Setting("Use Top Trinket:", false));
             Settings.Add(new Setting("Use Bottom Trinket:", false));
             Settings.Add(new Setting("Use DPS Potion:", false));
-            Settings.Add(new Setting("Potion name:", "Potion of Unbridled Fury"));
+            List<string> PotionList = new List<string>(new string[] { "Potion of Spectral Agility", "Potion of Phantom Fire", "Potion of Empowered Exorcisms"});
+            Settings.Add(new Setting("Potion name:", PotionList, "Potion of Spectral Agility"));
         }
 
 
